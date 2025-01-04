@@ -48,7 +48,7 @@ const addProduct = async (req, res) => {
             price: Number(price),
             subCategory,
             bestseller: bestseller === "true" ? true : false,
-            sizes: JSON.parse(sizes || "[]"), // Handle cases where `sizes` is undefined
+            sizes: JSON.parse(sizes || "[]"),
             image: imgagesUrl,
             date: Date.now(),
         };
@@ -56,7 +56,7 @@ const addProduct = async (req, res) => {
 
         // Save the product
         const product = new productModel(productData);
-        const result = await product.save(); // Added `await` to handle asynchronous operation
+        const result = await product.save();
 
         // Send response
         res.json({

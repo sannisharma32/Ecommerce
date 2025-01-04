@@ -5,6 +5,7 @@ import connectDB from './confiq/mongoDB.js';
 import connectCloudinary from './confiq/cloudinary.js';
 import userRouter from './routes/userRoute.js';
 import productRouter from './routes/productRoute.js';
+import cardRouter from './routes/cardroute.js';
 
 
 
@@ -34,6 +35,7 @@ app.use(express.urlencoded({ extended: true })); // Parse URL-encoded data
 
 app.use('/api/user',userRouter)
 app.use('/api/product',productRouter)
+app.use('/api/cart',cardRouter)
 
 
 app.get('/',(req,res)=>{

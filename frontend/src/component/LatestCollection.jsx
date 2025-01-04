@@ -16,7 +16,7 @@ useEffect(() => {
   setlatestproduct(products.slice(0,10));
 
  
-}, []);
+},[products]);
 
     
     

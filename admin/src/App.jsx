@@ -36,13 +36,11 @@ const App = () => {
                 <Route path="/list" element={<List token={token} />} />
                 <Route path="/order" element={<Order token={token} />} />
 
-
               </Routes>
             </div>
           </div>
         </>
       }
-
 
     </div>
 

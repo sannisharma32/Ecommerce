@@ -121,6 +121,7 @@ const Add = ({ token }) => {
         <div>
           <p className='mb-2'>Product Category</p>
           <select onChange={(e) => setcategory(e.target.value)} className='w-full px-3 py-2'>
+            <option value="">Select Category</option>
             <option value="Men">Men</option>
             <option value="Women">Women</option>
             <option value="Kid">Kid </option>
@@ -130,6 +131,7 @@ const Add = ({ token }) => {
         <div>
           <p className='mb-2'>Product Category</p>
           <select onChange={(e) => setsubCategory(e.target.value)} className='w-full px-3 py-2'>
+            <option value="">Select Sub Category</option>
             <option value="Topwear">Topwear</option>
             <option value="bottom">bottom</option>
             <option value="Winterwear">Winterwear </option>

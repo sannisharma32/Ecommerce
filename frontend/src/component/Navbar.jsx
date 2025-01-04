@@ -5,8 +5,17 @@ import { Shopcontext } from '../context/ShopContext.jsx';
 
 const Navbar = () => {
     const [Visible, setVisible] = useState(null);
-    const { setshowSearch, getCartCount } = useContext(Shopcontext);
+    const { setshowSearch, getCartCount,token,setToken,setCartItems,navigate} = useContext(Shopcontext);
     const location = useLocation();
+
+    const Logout = () => {
+
+        navigate('/loging')
+        localStorage.removeItem('token');
+        setToken('')
+        setCartItems({})
+      
+    }
 
     // Reset showSearch when the route changes to prevent search bar from being visible on new pages
     useEffect(() => {
@@ -40,16 +49,21 @@ const Navbar = () => {
                 <img onClick={() => setshowSearch(true)} src={assets.search_icon} className='w-5 cursor-pointer' alt="" />
 
                 <div className="group relative">
-                    <Link to={'/loging'}> 
-                    <img className='w-5 cursor-pointer' src={assets.profile_icon} alt="" />
-                    </Link>
-                    <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4">
+                   
+                    <img onClick={()=> token? null :navigate('/loging')}  className='w-5 cursor-pointer' src={assets.profile_icon} alt="" />
+                    {/** Dropdown menu */}
+
+                    {
+                        token && <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4">
                         <div className='flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded'>
                             <p className="cursor-pointer hover:text-black"> My Profile</p>
-                            <p className="cursor-pointer hover:text-black"> Order</p>
-                            <p className="cursor-pointer hover:text-black"> Logout</p>
+                            <p onClick={()=>navigate('/order')} className="cursor-pointer hover:text-black"> Order</p>
+                            <p onClick={Logout} className="cursor-pointer hover:text-black"> Logout</p>
                         </div>
                     </div>
+                    }
+                    
+                    
                 </div>
 
                 <Link to='/Cart' className='relative'>
