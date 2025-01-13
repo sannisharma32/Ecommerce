@@ -21,50 +21,51 @@ const ShopcontextProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const addToCart = async (itemId, size) => {
-
     if (!size) {
-      toast.error('Select Product size')
+      toast.error('Select Product size');
       return;
-
     }
-    let CartData = structuredClone(CartItems)
-
-    if (CartData[itemId]) {
-      if (CartData[itemId][size]) {
-        CartData[itemId][size] += 1;
-
-      } else {
-        CartData[itemId][size] = 1;
-      }
-
-    } else {
-      CartData[itemId] = {}
-      CartData[itemId][size] = 1
+  
+    // Create a deep clone of CartItems
+    let CartData = structuredClone(CartItems);
+  
+    // Update the CartData with the item and size
+    if (!CartData[itemId]) {
+      CartData[itemId] = {};
     }
+    CartData[itemId][size] = (CartData[itemId][size] || 0) + 1;
+  
+    // Update state
     setCartItems(CartData);
-
-    if (!token) {
+  
+    // Log the updated cart (use CartData instead of CartItems)
+    console.log('Updated Cart:', CartData);
+  
+    // Only make API call if token exists
+    if (token) {
       try {
-        const response = await axios.post(`${backendUrl}/api/cart/add`, { itemId, size }, {
-          headers: {
-            token
+        const response = await axios.post(
+          `${backendUrl}/api/cart/add`,
+          { itemId, size },
+          {
+            headers: {
+              token,
+            },
           }
-        }
         );
-
+        console.log('API Response:', response.data);
       } catch (error) {
-        console.error(error);
-        toast.error(error.message);
-
+        console.error('API Error:', error);
+        toast.error(error.response?.data?.message || error.message || 'An error occurred');
       }
     }
-
-  }
+  };
+  
 
   useEffect(() => {
 
     console.log(CartItems);
-
+ 
   }, [])
 
   const getCartCount = () => {
@@ -86,17 +87,19 @@ const ShopcontextProvider = ({ children }) => {
 
 
   };
-  const updateQuantity = async (itemId, size, quantity) => {
+  const updateQuantity = async ( itemId, size, quantity) => {
     let cartData = structuredClone(CartItems);
 
     cartData[itemId][size] = quantity;
     setCartItems(cartData);
     if (token) {
       try {
-        const response = await axios.post(`${backendUrl}/api/cart/update`,{ itemId, size, quantity }, {
+        const response = await axios.post(`${backendUrl}/api/cart/update`,{itemId, size, quantity }, {
           headers: { token}
         }
         );
+        console.log(response.data);
+      
 
       } catch (error) {
         console.error(error);
@@ -142,23 +145,17 @@ const ShopcontextProvider = ({ children }) => {
 
   const getUserCart = async (token) => {
     try {
-
-        const response = await axios.post(`${backendUrl}/api/cart/get`, {
-            headers: {
-            token
-            },
-        });
-        if (!token) {
-          throw new Error("Token is missing or undefined");
-      }else{
-        console.log("API Response:", response.data);
-
-
-      }
-
-
+        const response = await axios.post(
+            `${backendUrl}/api/cart/get`, 
+            {}, // Empty object, since you're not sending any data in the body
+            {
+                headers: {
+                    token: token // Add token to headers here
+                }
+            }
+        );
         
-        // Handle the API response
+        console.log("API Response:", response.data);
         if (response.data.success) {
             setCartItems(response.data.cartData); // Update state
             console.log("Cart Items:", response.data.cartData); // Log the updated data
@@ -170,6 +167,7 @@ const ShopcontextProvider = ({ children }) => {
         toast.error("Failed to fetch cart data. Please try again later.");
     }
 };
+
 
 
 
@@ -195,6 +193,7 @@ const ShopcontextProvider = ({ children }) => {
     delivery_fee,
     search, showSearch, setsearch, setshowSearch,
     CartItems, addToCart,
+    setCartItems,
     getCartCount,
     updateQuantity,
     getCartAmount,
@@ -202,7 +201,6 @@ const ShopcontextProvider = ({ children }) => {
     backendUrl,
     setProducts,
     setToken, token,
-    setCartItems
 
   };
 

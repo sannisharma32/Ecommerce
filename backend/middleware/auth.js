@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 const authUser = (req, res, next) => {
     const {token}=req.headers;
     if(!token){
-        return res.status(401).json({ success:false,message:"Token not found"})
+        return res.status(401).json({ success:false,message:"not authorize login again"})
     }
 
     try {

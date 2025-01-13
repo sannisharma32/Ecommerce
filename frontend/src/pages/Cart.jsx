@@ -9,19 +9,26 @@ const Cart = () => {
   const [cartData, setCartData] = useState([]);
 
   useEffect(() => {
-    const tempData = [];
-    for (const productId in CartItems) {
-      for (const size in CartItems[productId]) {
-        if (CartItems[productId][size] > 0) {
-          tempData.push({
-            _id: productId,
-            size: size, // Corrected this line
-            quantity: CartItems[productId][size], // Quantity is being accessed properly
-          });
+
+    if(products.length>0){
+      const tempData = [];
+      for (const productId in CartItems) {
+        for (const size in CartItems[productId]) {
+          if (CartItems[productId][size] > 0) {
+            tempData.push({
+              _id: productId,
+              size: size, // Corrected this line
+              quantity: CartItems[productId][size], // Quantity is being accessed properly
+            });
+          }
         }
       }
+      setCartData(tempData);
     }
-    setCartData(tempData);
+    
+
+
+   
   }, [CartItems, products]); // Corrected the dependency array to include CartItems and products
 
   return (

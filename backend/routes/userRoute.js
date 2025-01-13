@@ -1,6 +1,6 @@
 import express from "express"
 
-import { loginUser,ragisterUser,adminlogin } from "../controllesrs/userController.js"
+import {loginUser,ragisterUser,adminlogin} from "../controllesrs/userController.js"
 
 const userRouter =express.Router();
 
